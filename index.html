@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>龙头工具箱 - A股龙头交易系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #0f1525;
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 20% 30%, rgba(30, 60, 114, 0.3) 0%, transparent 20%),
+                              radial-gradient(circle at 80% 80%, rgba(20, 40, 80, 0.3) 0%, transparent 20%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        header {
+            background-color: rgba(15, 25, 45, 0.95);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0, 150, 255, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            color: #00a2ff;
+            font-size: 32px;
+            margin-right: 15px;
+        }
+        
+        .logo-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(to right, #00a2ff, #00eaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .logo-text p {
+            font-size: 14px;
+            color: #8ca0c7;
+            letter-spacing: 1.5px;
+        }
+        
+        /* 导航样式 */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: #b0c4de;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 5px;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            color: #00a2ff;
+            border-bottom: 2px solid #00a2ff;
+        }
+        
+        /* 主要内容区 */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+        
+        .hero h2 span {
+            background: linear-gradient(to right, #00a2ff, #00eaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            color: #8ca0c7;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(to right, #0066cc, #00a2ff);
+            color: white;
+            padding: 14px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+            border: none;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.5);
+            background: linear-gradient(to right, #0052a3, #0088dd);
+        }
+        
+        /* 功能卡片区 */
+        .features {
+            padding: 60px 0 80px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 50px;
+            color: #ffffff;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, #00a2ff, #00eaff);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(25, 35, 60, 0.8);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 150, 255, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 150, 255, 0.3);
+            box-shadow: 0 15px 30px rgba(0, 102, 204, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: #00a2ff;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        
+        .feature-card p {
+            color: #a0b5d9;
+            font-size: 16px;
+        }
+        
+        /* 数据展示区 */
+        .data-section {
+            padding: 60px 0;
+            background: rgba(10, 20, 40, 0.5);
+            border-radius: 20px;
+            margin-bottom: 60px;
+        }
+        
+        .data-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .data-item {
+            text-align: center;
+            padding: 20px;
+            min-width: 200px;
+        }
+        
+        .data-value {
+            font-size: 42px;
+            font-weight: 700;
+            color: #00eaff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 234, 255, 0.3);
+        }
+        
+        .data-label {
+            font-size: 16px;
+            color: #8ca0c7;
+        }
+        
+        /* 底部样式 */
+        footer {
+            background-color: rgba(10, 20, 35, 0.95);
+            padding: 40px 0 20px;
+            border-top: 1px solid rgba(0, 150, 255, 0.2);
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background: #00a2ff;
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #8ca0c7;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: #00a2ff;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 150, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8ca0c7;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: #00a2ff;
+            color: #0f1525;
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #6a7ea5;
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .logo-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav {
+                margin-top: 20px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin: 0 15px 10px 0;
+            }
+            
+            .hero h2 {
+                font-size: 36px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 30px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .data-value {
+                font-size: 36px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero {
+                padding: 50px 0 40px;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+            
+            .footer-section {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部区域 -->
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>龙头工具箱</h1>
+                        <p>A股龙头交易系统</p>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">首页</a></li>
+                        <li><a href="#">龙头选股</a></li>
+                        <li><a href="#">交易系统</a></li>
+                        <li><a href="#">数据监控</a></li>
+                        <li><a href="#">策略研究</a></li>
+                        <li><a href="#">关于我们</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>专业的<span> A股龙头交易系统</span>，助您精准把握市场脉搏</h2>
+                <p>龙头工具箱为您提供全面的A股龙头股分析工具，实时监控龙头股动态，智能生成交易策略，帮助您在复杂市场环境中做出明智决策。</p>
+                <a href="#" class="cta-button">立即体验免费版</a>
+            </div>
+        </section>
+
+        <!-- 功能卡片区 -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">核心功能</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>龙头股筛选</h3>
+                        <p>基于多维度指标智能筛选各行业龙头股，实时跟踪龙头股动态，助您快速发现投资机会。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>实时数据分析</h3>
+                        <p>提供全面的技术指标分析、资金流向监控和板块轮动数据，帮助您做出精准决策。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>智能交易策略</h3>
+                        <p>基于AI算法的交易策略生成器，根据市场状况和用户风险偏好提供个性化交易建议。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>风险控制</h3>
+                        <p>多层级风险预警系统，实时监控持仓风险，提供止损止盈建议，保护您的投资安全。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据展示区 -->
+        <section class="data-section">
+            <div class="container">
+                <h2 class="section-title">实时数据概览</h2>
+                <div class="data-container">
+                    <div class="data-item">
+                        <div class="data-value" id="monitored-stocks">1,248</div>
+                        <div class="data-label">监控龙头股数量</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-value" id="success-rate">86.5%</div>
+                        <div class="data-label">策略成功率</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-value" id="active-users">58,923</div>
+                        <div class="data-label">活跃用户数</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-value" id="update-time">实时</div>
+                        <div class="data-label">数据更新频率</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部区域 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>龙头工具箱</h3>
+                    <p>专业的A股龙头交易系统，为投资者提供全面、精准的龙头股分析工具和交易策略。</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-zhihu"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <a href="#">首页</a>
+                    <a href="#">龙头选股</a>
+                    <a href="#">交易系统</a>
+                    <a href="#">数据监控</a>
+                    <a href="#">策略研究</a>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <p><i class="fas fa-envelope"></i>support@long.tools</p>
+                    <p><i class="fas fa-phone"></i> 400-123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i></p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 龙头工具箱 - A股龙头交易系统. 保留所有权利.</p>
+                <p>股市有风险，投资需谨慎。本系统提供的数据和分析仅供参考，不构成投资建议。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 数据动态更新效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 数据动态增长效果
+            function animateValue(element, start, end, duration) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const value = Math.floor(progress * (end - start) + start);
+                    element.textContent = value.toLocaleString();
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+            
+            // 模拟数据更新
+            setTimeout(() => {
+                const stocksElement = document.getElementById('monitored-stocks');
+                const usersElement = document.getElementById('active-users');
+                
+                animateValue(stocksElement, 1200, 1248, 1500);
+                animateValue(usersElement, 58000, 58923, 2000);
+            }, 1000);
+            
+            // 成功率动态变化效果
+            let successRate = 86.0;
+            const rateElement = document.getElementById('success-rate');
+            const rateInterval = setInterval(() => {
+                successRate += (Math.random() - 0.5) * 0.2;
+                successRate = Math.min(Math.max(successRate, 85.5), 87.5);
+                rateElement.textContent = successRate.toFixed(1) + "%";
+            }, 3000);
+            
+            // 更新时间动态显示
+            const timeElement = document.getElementById('update-time');
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                 now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                 now.getSeconds().toString().padStart(2, '0');
+                timeElement.textContent = timeString;
+            }
+            
+            setInterval(updateTime, 1000);
+            updateTime();
+            
+            // 按钮交互效果
+            const ctaButton = document.querySelector('.cta-button');
+            ctaButton.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            
+            ctaButton.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+            
+            // 卡片悬停效果增强
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
